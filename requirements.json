@@ -1,0 +1,20 @@
+{
+  "executor": {
+    "name": "Executor",
+    "type": "event",
+    "requirements": [
+      {"toon": "Admiral Piett", "stars": 7, "gear": 12, "relic": 8},
+      {"toon": "Bossk", "stars": 7, "gear": 12, "relic": 5},
+      {"toon": "IG-88", "stars": 7, "gear": 12, "relic": 5},
+      {"toon": "Dengar", "stars": 7, "gear": 12, "relic": 5},
+      {"ship": "Razor Crest", "stars": 7}
+    ]
+  },
+  "forest_moon_t3": {
+    "name": "Forest Moon Assault Tier 3",
+    "type": "event",
+    "requirements": [
+      {"faction": "Ewoks", "stars": 7, "gear": 9}
+    ]
+  }
+}
