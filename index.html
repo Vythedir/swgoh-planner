@@ -23,25 +23,24 @@
     <section id="goals">
       <h2>General Goals</h2>
       <div id="goalList"></div>
-
+    
       <div id="addGoalForm">
         <label for="goalType">Goal Type:</label>
         <select id="goalType">
           <option value="custom">Custom</option>
           <option value="event">Event</option>
         </select>
-      
+    
         <div id="customGoalInput">
           <input type="text" id="customGoalName" placeholder="Enter custom goal name">
         </div>
-      
+    
         <div id="eventGoalInput" style="display:none;">
           <select id="eventGoalName"></select>
         </div>
-      
-        <button onclick="addGoal()">Add Goal</button>
       </div>
     </section>
+
   </main>
 
   <script src="script.js"></script>
