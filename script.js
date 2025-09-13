@@ -2,27 +2,24 @@
 // Data Setup
 // =============================
 
-// Accounts
 const accounts = ["Vythedir", "Gamegeekfreak", "Eussurin"];
 let currentAccount = accounts[0];
 
 // Local storage data
 let data = JSON.parse(localStorage.getItem("swgohPlanner")) || {};
 
-// Initialize accounts in storage
 accounts.forEach(acc => {
   if (!data[acc]) {
     data[acc] = { goals: [] };
   }
 });
 
-// Save data
 function saveData() {
   localStorage.setItem("swgohPlanner", JSON.stringify(data));
 }
 
 // =============================
-// Requirements Library (from JSON)
+// Requirements Library (JSON)
 // =============================
 let requirementsData = {};
 
@@ -31,6 +28,7 @@ fetch("requirements.json")
   .then(json => {
     requirementsData = json;
     console.log("Requirements loaded:", requirementsData);
+    populateEventDropdown();
   })
   .catch(err => console.error("Error loading requirements:", err));
 
@@ -38,7 +36,6 @@ fetch("requirements.json")
 // Render Functions
 // =============================
 
-// Render account tabs
 function renderTabs() {
   const tabContainer = document.getElementById("accountTabs");
   tabContainer.innerHTML = "";
@@ -57,7 +54,6 @@ function renderTabs() {
   });
 }
 
-// Render goals
 function renderGoals() {
   const goalList = document.getElementById("goalList");
   goalList.innerHTML = "";
@@ -66,7 +62,6 @@ function renderGoals() {
     const div = document.createElement("div");
 
     if (goal.type === "event" && goal.requirements) {
-      // Show structured event requirements
       div.innerHTML = `
         <strong>${goal.name}</strong> (Event Goal)<br>
         Overall Progress: ${calculateGoalProgress(goal)}%<br>
@@ -79,7 +74,6 @@ function renderGoals() {
         </ul>
       `;
     } else {
-      // Show custom goal
       div.innerHTML = `<strong>${goal.name}</strong> (Custom Goal)`;
     }
 
@@ -87,13 +81,12 @@ function renderGoals() {
   });
 }
 
-// Render dashboard
 function renderDashboard() {
   const activeGoal = document.getElementById("activeGoal");
   const goals = data[currentAccount].goals;
 
   if (goals.length > 0) {
-    const goal = goals[0]; // For now, first goal is "active"
+    const goal = goals[0];
     activeGoal.textContent = `Active Goal: ${goal.name} (${goal.type})`;
   } else {
     activeGoal.textContent = "No active goal set.";
@@ -104,7 +97,6 @@ function renderDashboard() {
 // Goal Logic
 // =============================
 
-// Populate event dropdown after JSON loads
 function populateEventDropdown() {
   const eventSelect = document.getElementById("eventGoalName");
   eventSelect.innerHTML = "";
@@ -117,7 +109,6 @@ function populateEventDropdown() {
   });
 }
 
-// Show/hide inputs depending on goal type
 document.addEventListener("DOMContentLoaded", () => {
   const typeSelect = document.getElementById("goalType");
   const customInput = document.getElementById("customGoalInput");
@@ -134,7 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Add a new goal from form
 function addGoal() {
   const type = document.getElementById("goalType").value;
   let newGoal = { type };
@@ -166,12 +156,9 @@ function addGoal() {
   document.getElementById("eventGoalInput").style.display = "none";
 }
 
-
-// Calculate progress of event goal
 function calculateGoalProgress(goal) {
   if (!goal.requirements) return 0;
-  // TODO: later we’ll compare user’s actual roster to requirements
-  // For now, just return placeholder 0
+  // Placeholder — later compare roster vs requirements
   return 0;
 }
 
