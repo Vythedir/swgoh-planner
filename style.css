@@ -67,3 +67,21 @@ button {
 button:hover {
   background: #2ea043;
 }
+
+#addGoalForm {
+  margin-top: 1rem;
+}
+
+#addGoalForm label {
+  margin-right: 0.5rem;
+}
+
+#addGoalForm select,
+#addGoalForm input {
+  margin: 0.5rem 0;
+  padding: 0.3rem;
+  border-radius: 5px;
+  border: 1px solid #30363d;
+  background: #0d1117;
+  color: #e6edf3;
+}
