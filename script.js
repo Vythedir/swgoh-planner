@@ -104,30 +104,68 @@ function renderDashboard() {
 // Goal Logic
 // =============================
 
-// Add a new goal
-function addGoal() {
-  const goalType = prompt("Enter goal type (event/custom):").toLowerCase();
-  const goalName = prompt("Enter the goal name (e.g., Executor):");
+// Populate event dropdown after JSON loads
+function populateEventDropdown() {
+  const eventSelect = document.getElementById("eventGoalName");
+  eventSelect.innerHTML = "";
 
-  if (!goalName) return;
+  Object.keys(requirementsData).forEach(key => {
+    const option = document.createElement("option");
+    option.value = key;
+    option.textContent = requirementsData[key].name;
+    eventSelect.appendChild(option);
+  });
+}
 
-  let newGoal = { name: goalName, type: goalType };
+// Show/hide inputs depending on goal type
+document.addEventListener("DOMContentLoaded", () => {
+  const typeSelect = document.getElementById("goalType");
+  const customInput = document.getElementById("customGoalInput");
+  const eventInput = document.getElementById("eventGoalInput");
 
-  if (goalType === "event") {
-    const key = goalName.toLowerCase().replace(/\s+/g, "_"); // match JSON key
-    if (requirementsData[key]) {
-      newGoal.requirements = requirementsData[key].requirements;
+  typeSelect.addEventListener("change", () => {
+    if (typeSelect.value === "event") {
+      customInput.style.display = "none";
+      eventInput.style.display = "block";
     } else {
-      alert("No requirements found in library, saving as custom goal.");
-      newGoal.type = "custom";
+      customInput.style.display = "block";
+      eventInput.style.display = "none";
     }
+  });
+});
+
+// Add a new goal from form
+function addGoal() {
+  const type = document.getElementById("goalType").value;
+  let newGoal = { type };
+
+  if (type === "event") {
+    const eventKey = document.getElementById("eventGoalName").value;
+    if (requirementsData[eventKey]) {
+      newGoal.name = requirementsData[eventKey].name;
+      newGoal.requirements = requirementsData[eventKey].requirements;
+    }
+  } else {
+    const name = document.getElementById("customGoalName").value.trim();
+    if (!name) {
+      alert("Please enter a goal name");
+      return;
+    }
+    newGoal.name = name;
   }
 
   data[currentAccount].goals.push(newGoal);
   saveData();
   renderGoals();
   renderDashboard();
+
+  // Reset form
+  document.getElementById("customGoalName").value = "";
+  document.getElementById("goalType").value = "custom";
+  document.getElementById("customGoalInput").style.display = "block";
+  document.getElementById("eventGoalInput").style.display = "none";
 }
+
 
 // Calculate progress of event goal
 function calculateGoalProgress(goal) {
